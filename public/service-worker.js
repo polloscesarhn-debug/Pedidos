@@ -2,10 +2,10 @@ self.addEventListener('install', event => {
   event.waitUntil(
     caches.open('pedidos-v1').then(cache => {
       return cache.addAll([
-        '/',
-        '/index.html',
-        '/logo.jpeg',
-        '/manifest.json',
+        './',
+        'index.html',
+        'logo.jpeg',
+        'manifest.json',
         // Agrega aquí otros archivos estáticos si es necesario
       ]);
     })

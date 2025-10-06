@@ -5,7 +5,7 @@ import PedidoCard from './components/PedidoCard';
 import ModalActualizarOrden from './components/ModalActualizarOrden';
 import ModalExito from './components/ModalExito';
 export default function App() {
-  const logo = '/logo.jpeg';
+  const logo = 'logo.jpeg';
   const { pedidos, loading, error, refetch } = usePedidos();
   const [modalOpen, setModalOpen] = React.useState(false);
   const [pedidoSeleccionado, setPedidoSeleccionado] = React.useState(null);
