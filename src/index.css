@@ -1,0 +1,64 @@
+
+body {
+  margin: 0;
+  min-width: 320px;
+  min-height: 100vh;
+  background: #f7f7f7;
+}
+
+.app-bg {
+  min-height: 100vh;
+  width: 100vw;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  background: linear-gradient(135deg, #fffbe6 0%, #ffe066 100%);
+  padding-bottom: 2rem;
+  box-sizing: border-box;
+}
+
+.app-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 0.1rem;
+  margin-top: 0.1rem;
+}
+.app-header h1 {
+  color: #d90429;
+  text-shadow: 2px 2px 8px #fff;
+  font-size: 2.5rem;
+  font-weight: 900;
+  letter-spacing: 2px;
+}
+
+.app-logo {
+  width: 110px;
+  height: 110px;
+  object-fit: cover;
+  border-radius: 50%;
+  box-shadow: 0 4px 16px #d90429aa;
+  margin-bottom: 1rem;
+  border: 4px solid #ffe066;
+}
+
+.cards-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+  gap: 5.5rem 5.5rem;
+  justify-content: center;
+  align-items: start;
+  width: 100%;
+  max-width: 1200px;
+  margin-top: 0.5rem;
+  padding: 0 2rem;
+}
+
+.app-loading, .app-error {
+  font-size: 1.2rem;
+  color: #c00;
+  margin-bottom: 1rem;
+  text-align: center;
+}

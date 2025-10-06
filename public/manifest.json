@@ -1,0 +1,22 @@
+{
+  "short_name": "Pedidos",
+  "name": "Pedidos Pollos Cesar #2",
+  "icons": [
+    {
+      "src": "/logo.jpeg",
+      "type": "image/jpeg",
+      "sizes": "192x192"
+    },
+    {
+      "src": "/logo.jpeg",
+      "type": "image/jpeg",
+      "sizes": "512x512"
+    }
+  ],
+  "start_url": ".",
+  "display": "standalone",
+  "background_color": "#ffe066",
+  "theme_color": "#d90429",
+  "description": "Gestión de pedidos para Pollos Cesar #2",
+  "orientation": "portrait"
+}

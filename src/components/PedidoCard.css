@@ -1,0 +1,64 @@
+
+.pedido-card {
+  background: #fffbe6;
+  border-radius: 18px;
+  box-shadow: 0 4px 16px #d9042944;
+  padding: 2rem 1.5rem;
+  margin: 0.5rem;
+  max-width: 370px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  border: 2px solid #d90429;
+  transition: box-shadow 0.2s, border 0.2s;
+  font-size: 1.08rem;
+}
+.pedido-card:hover {
+  box-shadow: 0 8px 24px #d9042977;
+  border: 2px solid #ffe066;
+}
+.pedido-card h3 {
+  margin-top: 0;
+  margin-bottom: 0.5rem;
+  font-size: 1.25rem;
+  color: #d90429;
+  font-weight: bold;
+  letter-spacing: 1px;
+}
+.pedido-card p {
+  margin: 0.3rem 0;
+  color: #213547;
+  font-weight: 500;
+}
+.pedido-card .productos-lista {
+  background: #ffe066;
+  border-radius: 8px;
+  padding: 0.7rem 1rem;
+  margin: 0.5rem 0 1rem 0;
+  box-shadow: 0 2px 8px #d9042922;
+}
+.pedido-card ul {
+  padding-left: 0;
+  margin: 0.2rem 0 0 0;
+  list-style: none;
+}
+.pedido-card li {
+  font-size: 1.08rem;
+  margin-bottom: 0.3rem;
+  color: #d90429;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-weight: 600;
+}
+.pedido-card .cantidad {
+  background: #fff;
+  color: #d90429;
+  border-radius: 6px;
+  padding: 2px 10px;
+  font-size: 1rem;
+  font-weight: bold;
+  margin-left: 1rem;
+  box-shadow: 0 1px 4px #d9042922;
+}

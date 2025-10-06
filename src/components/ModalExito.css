@@ -1,0 +1,31 @@
+.modal-exito-bg {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0,0,0,0.15);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2000;
+}
+.modal-exito {
+  background: #fffbe6;
+  border-radius: 16px;
+  box-shadow: 0 8px 32px #d9042944;
+  padding: 2rem 2.5rem;
+  min-width: 260px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border: 2px solid #d90429;
+  animation: fadeIn 0.3s;
+}
+.modal-exito h3 {
+  color: #d90429;
+  margin-top: 1rem;
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+@keyframes fadeIn {
+  from { opacity: 0; transform: scale(0.9); }
+  to { opacity: 1; transform: scale(1); }
+}
