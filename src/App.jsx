@@ -5,6 +5,7 @@ import PedidoCard from './components/PedidoCard';
 import ModalActualizarOrden from './components/ModalActualizarOrden';
 import ModalExito from './components/ModalExito';
 export default function App() {
+  const [busqueda, setBusqueda] = React.useState('');
   const logo = 'logo.jpeg';
   const { pedidos, loading, error, refetch } = usePedidos();
   const [modalOpen, setModalOpen] = React.useState(false);
@@ -51,7 +52,25 @@ export default function App() {
   return (
     <div className="app-bg">
       <div style={{width:'100%', display:'flex', flexDirection:'column', alignItems:'flex-start'}}>
-        <ContadorPedidos total={pedidos.filter(p => p.orden === 'ORDENADO').length} />
+        <div style={{display:'flex', alignItems:'center', gap:'1rem'}}>
+          <ContadorPedidos total={pedidos.filter(p => p.orden === 'ORDENADO').length} />
+          <button
+            style={{
+              padding: '0.5rem 1.2rem',
+              background: '#ffe066',
+              color: '#d90429',
+              border: 'none',
+              borderRadius: '8px',
+              fontWeight: 'bold',
+              fontSize: '1rem',
+              cursor: 'pointer',
+              boxShadow: '0 2px 8px #d9042922'
+            }}
+            onClick={refetch}
+          >
+            Actualizar
+          </button>
+        </div>
         <button
           style={{
             marginTop: '1rem',
@@ -72,7 +91,25 @@ export default function App() {
     </div>
       <header className="app-header">
         <img src={logo} alt="Logo Pollos Cesar #2" className="app-logo" />
-        <h1>Pollos Cesar #2</h1>
+        <h1>Pollos Cesar</h1>
+      <input
+        type="text"
+        placeholder="Buscar cliente o producto..."
+        value={busqueda}
+        onChange={e => setBusqueda(e.target.value)}
+        style={{
+          width: '100%',
+          maxWidth: '400px',
+          margin: '0.5rem auto 1.5rem',
+          display: 'block',
+          padding: '0.7rem 1rem',
+          fontSize: '1rem',
+          borderRadius: '8px',
+          border: '2px solid #ffe066',
+          outline: 'none',
+          boxShadow: '0 2px 8px #d9042922'
+        }}
+      />
       </header>
       {loading && <p className="app-loading">Cargando pedidos...</p>}
       {error && <p className="app-error">Error al cargar pedidos</p>}
@@ -80,19 +117,33 @@ export default function App() {
         {mostrarPreparados
           ? (() => {
               const preparados = pedidos.filter(p => p.orden === 'PREPARADO');
-              if (preparados.length === 0) return <p style={{color:'#d90429'}}>No hay pedidos preparados.</p>;
-              const ultimo = preparados[preparados.length - 1];
-              return (
-                <div key={ultimo.id} style={{cursor:'pointer'}}>
-                  <PedidoCard pedido={ultimo} />
+              const filtrados = preparados.filter(p => {
+                if (!busqueda.trim()) return true;
+                const cliente = p.cliente?.toLowerCase() || '';
+                const productos = (p.pedido || []).map(item => item.producto?.toLowerCase()).join(' ');
+                return cliente.includes(busqueda.toLowerCase()) || productos.includes(busqueda.toLowerCase());
+              });
+              if (filtrados.length === 0) return <p style={{color:'#d90429'}}>No hay pedidos preparados.</p>;
+              return filtrados.sort((a,b)=>a.id.localeCompare(b.id)).map(pedido => (
+                <div key={pedido.id} style={{cursor:'pointer'}}>
+                  <PedidoCard pedido={pedido} />
                 </div>
-              );
+              ));
             })()
-          : [...pedidos].filter(p => p.orden === 'ORDENADO').sort((a,b)=>a.id.localeCompare(b.id)).map(pedido => (
-              <div key={pedido.id} onClick={() => handleCardClick(pedido)} style={{cursor:'pointer'}}>
-                <PedidoCard pedido={pedido} />
-              </div>
-            ))
+          : [...pedidos]
+              .filter(p => p.orden === 'ORDENADO')
+              .filter(p => {
+                if (!busqueda.trim()) return true;
+                const cliente = p.cliente?.toLowerCase() || '';
+                const productos = (p.pedido || []).map(item => item.producto?.toLowerCase()).join(' ');
+                return cliente.includes(busqueda.toLowerCase()) || productos.includes(busqueda.toLowerCase());
+              })
+              .sort((a,b)=>a.id.localeCompare(b.id))
+              .map(pedido => (
+                <div key={pedido.id} onClick={() => handleCardClick(pedido)} style={{cursor:'pointer'}}>
+                  <PedidoCard pedido={pedido} />
+                </div>
+              ))
         }
       </div>
       <ModalActualizarOrden
