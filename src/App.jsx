@@ -5,6 +5,7 @@ import PedidoCard from './components/PedidoCard';
 import ModalActualizarOrden from './components/ModalActualizarOrden';
 import ModalExito from './components/ModalExito';
 export default function App() {
+  const [busqueda, setBusqueda] = React.useState("");
   const logo = '/logo.jpeg';
   const { pedidos, loading, error, refetch } = usePedidos();
   const [modalOpen, setModalOpen] = React.useState(false);
@@ -92,6 +93,22 @@ export default function App() {
       <header className="app-header">
         <img src={logo} alt="Logo Pollos Cesar #2" className="app-logo" />
         <h1>Pollos Cesar #2</h1>
+        <div style={{width:'100%', display:'flex', justifyContent:'center', marginTop:'1rem'}}>
+          <input
+            type="text"
+            value={busqueda}
+            onChange={e => setBusqueda(e.target.value)}
+            placeholder="Buscar pedido por nombre o ID..."
+            style={{
+              padding: '0.7rem 1.5rem',
+              borderRadius: '8px',
+              border: '2px solid #d90429',
+              fontSize: '1rem',
+              width: '60%',
+              boxShadow: '0 2px 8px #d9042922'
+            }}
+          />
+        </div>
       </header>
       {loading && <p className="app-loading">Cargando pedidos...</p>}
       {error && <p className="app-error">Error al cargar pedidos</p>}
@@ -99,19 +116,30 @@ export default function App() {
         {mostrarPreparados
           ? (() => {
               const preparados = pedidos.filter(p => p.orden === 'PREPARADO');
-              if (preparados.length === 0) return <p style={{color:'#d90429'}}>No hay pedidos preparados.</p>;
-              const ultimo = preparados[preparados.length - 1];
+              const filtrados = preparados.filter(p =>
+                p.id.toLowerCase().includes(busqueda.toLowerCase()) ||
+                (p.nombre && p.nombre.toLowerCase().includes(busqueda.toLowerCase()))
+              );
+              if (filtrados.length === 0) return <p style={{color:'#d90429'}}>No hay pedidos preparados.</p>;
+              const ultimo = filtrados[filtrados.length - 1];
               return (
                 <div key={ultimo.id} style={{cursor:'pointer'}}>
                   <PedidoCard pedido={ultimo} />
                 </div>
               );
             })()
-          : [...pedidos].filter(p => p.orden === 'ORDENADO').sort((a,b)=>a.id.localeCompare(b.id)).map(pedido => (
-              <div key={pedido.id} onClick={() => handleCardClick(pedido)} style={{cursor:'pointer'}}>
-                <PedidoCard pedido={pedido} />
-              </div>
-            ))
+          : [...pedidos]
+              .filter(p => p.orden === 'ORDENADO')
+              .filter(p =>
+                p.id.toLowerCase().includes(busqueda.toLowerCase()) ||
+                (p.nombre && p.nombre.toLowerCase().includes(busqueda.toLowerCase()))
+              )
+              .sort((a,b)=>a.id.localeCompare(b.id))
+              .map(pedido => (
+                <div key={pedido.id} onClick={() => handleCardClick(pedido)} style={{cursor:'pointer'}}>
+                  <PedidoCard pedido={pedido} />
+                </div>
+              ))
         }
       </div>
       <ModalActualizarOrden
