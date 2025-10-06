@@ -50,26 +50,45 @@ export default function App() {
 
   return (
     <div className="app-bg">
-      <div style={{width:'100%', display:'flex', flexDirection:'column', alignItems:'flex-start'}}>
-        <ContadorPedidos total={pedidos.filter(p => p.orden === 'ORDENADO').length} />
+      <div style={{width:'100%', display:'flex', flexDirection:'row', alignItems:'flex-start', justifyContent:'space-between'}}>
+        <div style={{display:'flex', flexDirection:'column', alignItems:'flex-start'}}>
+          <ContadorPedidos total={pedidos.filter(p => p.orden === 'ORDENADO').length} />
+          <button
+            style={{
+              marginTop: '1rem',
+              padding: '0.7rem 1.5rem',
+              background: '#d90429',
+              color: '#fff',
+              border: 'none',
+              borderRadius: '8px',
+              fontWeight: 'bold',
+              fontSize: '1rem',
+              cursor: 'pointer',
+              boxShadow: '0 2px 8px #d9042922'
+            }}
+            onClick={() => setMostrarPreparados(prev => !prev)}
+          >
+            {mostrarPreparados ? 'Ver pedidos ordenados' : 'Pedidos preparados'}
+          </button>
+        </div>
         <button
           style={{
-            marginTop: '1rem',
+            marginTop: '0.5rem',
             padding: '0.7rem 1.5rem',
-            background: '#d90429',
-            color: '#fff',
-            border: 'none',
+            background: '#ffe066',
+            color: '#d90429',
+            border: '2px solid #d90429',
             borderRadius: '8px',
             fontWeight: 'bold',
             fontSize: '1rem',
             cursor: 'pointer',
             boxShadow: '0 2px 8px #d9042922'
           }}
-          onClick={() => setMostrarPreparados(prev => !prev)}
+          onClick={() => refetch && refetch()}
         >
-          {mostrarPreparados ? 'Ver pedidos ordenados' : 'Pedidos preparados'}
+          Actualizar
         </button>
-    </div>
+      </div>
       <header className="app-header">
         <img src={logo} alt="Logo Pollos Cesar #2" className="app-logo" />
         <h1>Pollos Cesar #2</h1>

@@ -54,6 +54,8 @@ export default function usePedidos() {
 
   React.useEffect(() => {
     fetchPedidos();
+    const interval = setInterval(fetchPedidos, 15000);
+    return () => clearInterval(interval);
   }, []);
 
   return { pedidos, loading, error, refetch: fetchPedidos };
