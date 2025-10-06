@@ -4,6 +4,7 @@ import ContadorPedidos from './components/ContadorPedidos';
 import PedidoCard from './components/PedidoCard';
 import ModalActualizarOrden from './components/ModalActualizarOrden';
 import ModalExito from './components/ModalExito';
+import BarraBusqueda from './components/BarraBusqueda';
 export default function App() {
   const logo = '/logo.jpeg';
   const { pedidos, loading, error, refetch } = usePedidos();
@@ -12,6 +13,7 @@ export default function App() {
   const [modalExitoOpen, setModalExitoOpen] = React.useState(false);
   const [exitoMsg, setExitoMsg] = React.useState('');
   const [mostrarPreparados, setMostrarPreparados] = React.useState(false);
+  const [busqueda, setBusqueda] = React.useState("");
 
   const handleCardClick = (pedido) => {
     setPedidoSeleccionado(pedido);
@@ -47,6 +49,13 @@ export default function App() {
       }, 1000);
     }
   };
+
+  // Filtrar pedidos por búsqueda
+  const pedidosFiltrados = busqueda
+    ? pedidos.filter(p =>
+        Object.values(p).join(" ").toLowerCase().includes(busqueda.toLowerCase())
+      )
+    : pedidos;
 
   return (
     <div className="app-bg">
@@ -93,12 +102,13 @@ export default function App() {
         <img src={logo} alt="Logo Pollos Cesar #2" className="app-logo" />
         <h1>Pollos Cesar #2</h1>
       </header>
+      <BarraBusqueda onBuscar={setBusqueda} />
       {loading && <p className="app-loading">Cargando pedidos...</p>}
       {error && <p className="app-error">Error al cargar pedidos</p>}
       <div className="cards-container">
         {mostrarPreparados
           ? (() => {
-              const preparados = pedidos.filter(p => p.orden === 'PREPARADO');
+              const preparados = pedidosFiltrados.filter(p => p.orden === 'PREPARADO');
               if (preparados.length === 0) return <p style={{color:'#d90429'}}>No hay pedidos preparados.</p>;
               const ultimo = preparados[preparados.length - 1];
               return (
@@ -107,7 +117,7 @@ export default function App() {
                 </div>
               );
             })()
-          : [...pedidos].filter(p => p.orden === 'ORDENADO').sort((a,b)=>a.id.localeCompare(b.id)).map(pedido => (
+          : [...pedidosFiltrados].filter(p => p.orden === 'ORDENADO').sort((a,b)=>a.id.localeCompare(b.id)).map(pedido => (
               <div key={pedido.id} onClick={() => handleCardClick(pedido)} style={{cursor:'pointer'}}>
                 <PedidoCard pedido={pedido} />
               </div>
